@@ -8,8 +8,8 @@ The following Apache Kafka Connect plugins are already installed:
 - The confluent *kafka-serde-tools* from the [Confluent Schema Registry](https://github.com/confluentinc/schema-registry) which contains the Avro, Protobuf and JSON schema convertors). 
 
 ## CI Build
-- ![Build Docker](https://github.com/rueedlinger/kafka-connect-image/workflows/Build%20Docker/badge.svg)
-- ![Release](https://github.com/rueedlinger/kafka-connect-image/workflows/Publish%20Docker%20image/badge.svg)
+- ![Build Docker image](https://github.com/rueedlinger/kafka-connect-image/workflows/Build%20Docker%20image/badge.svg)
+- ![Release Docker image](https://github.com/rueedlinger/kafka-connect-image/workflows/Release%20Docker%20image/badge.svg)
 
 ## Build and Run (docker-compose)
 
