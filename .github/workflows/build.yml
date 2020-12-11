@@ -1,9 +1,9 @@
 name: Build Docker
 on:
   push:
-    branches: [ master, fix/*, feature/* ]
+    branches: [ main, fix/*, feature/* ]
   pull_request:
-    branches: [ master ]
+    branches: [ main ]
 jobs:
   build:
     runs-on: ubuntu-latest
