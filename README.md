@@ -36,7 +36,7 @@ When all containers are started you can access different services like
 
 ## Docker Image
 
-The Docker image is also published in Hub.
+The Docker image is also published in Docker Hub.
 - see https://hub.docker.com/repository/docker/rueedlinger/kafka-connect
 
 
