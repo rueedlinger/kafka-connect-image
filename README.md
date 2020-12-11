@@ -9,6 +9,7 @@ The following Apache Kafka Connect plugins are already installed:
 
 ## CI Build
 - ![Build Docker](https://github.com/rueedlinger/kafka-connect-image/workflows/Build%20Docker/badge.svg)
+- ![Release](https://github.com/rueedlinger/kafka-connect-image/workflows/Publish%20Docker%20image/badge.svg)
 
 ## Build and Run (docker-compose)
 
