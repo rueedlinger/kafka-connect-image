@@ -34,6 +34,16 @@ When all containers are started you can access different services like
 - **kafka-connect-ui** from Lenses.io  => http://localhost:8000/
 
 
+## Docker Image
+
+The Docker image is also published in Hub.
+- see https://hub.docker.com/repository/docker/rueedlinger/kafka-connect
+
+
+```bash
+docker pull rueedlinger/kafka-connect:v2.6.0
+```
+
 ## Configuration
 All environment variables with the prefix `CONNECT_`are used to configure Apache Kafka Connect. 
 For example `CONNECT_BOOTSTRAP_SERVERS=foo` is mapped to Connect configuration `bootstrap.servers=foo`.
