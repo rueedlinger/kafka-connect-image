@@ -33,8 +33,7 @@ When all containers are started you can access different services like
 - **Schema Registry** => http://localhost:8081/
 - **kafka-connect-ui** from Lenses.io  => http://localhost:8000/
 
-
-## Docker Image
+## Releases & Docker Image
 
 The Docker image is also published in Docker Hub.
 - see https://hub.docker.com/r/rueedlinger/kafka-connect
@@ -42,10 +41,8 @@ The Docker image is also published in Docker Hub.
 ```bash
 docker pull rueedlinger/kafka-connect:v1.0.0
 ```
-## Releases
-There are the following releases:
 
-| Release  | Description  |
+| Docker Tag  | Description  |
 |---|---|
 | `main` | This is the current release of the main branch. |
 | `<major>.<minor>.<path>` | The release `<major>.<minor>.<path>`. For example `1.0.1` and tag `v1.0.1` |
@@ -54,37 +51,6 @@ There are the following releases:
 |---|---|---|
 |1.0.x| 2.6.x| 11 |
 
-## How to Install Other Plugins
-
-If you want to install other Kafka Connect plugins (Connectors, SMT, etc.) you have two options:
-
-1. Create a *Dockerfile* and install the plugin with the confluent-hub CLI.
-```
-FROM rueedlinger/kafka-connect:1.0.0
-
-# Install connectors from Confluent Hub with convenience script.
-# This will install the plugin in $CONNECT_HOME/plugins
-RUN confluent-hub-install confluentinc/kafka-connect-jdbc:10.0.1
-
-# Or directly with confluent-hub CLI
-# confluent-hub install confluentinc/kafka-connect-jdbc:10.0.1 \
-#   --component-dir $CONNECT_HOME/plugins \
-#   --worker-configs $CONNECT_WORKER_CONFIG \
-#   --no-prompt
-```
-
-2. Create a *Dockerfile* and place the connector in one of the Kafka Connect plugin directories.
-```
-FROM rueedlinger/kafka-connect:1.0.0
-
-# Add the connector plugin to /usr/local/share/java 
-ADD connector.jar /usr/local/share/java
-
-# Or add the connector $CONNECT_HOME/plugins
-# ADD connector.jar $CONNECT_HOME/plugins
-```
-
-**Note**: If you want to install Kafka Consumer or Producer interceptors, you should place them in  $CONNECT_HOME/jars. Because `$CONNECT_HOME/jars` is added to `CLASSPATH` when starting Apache Kafka Connect.
 
 ## Configuration
 All environment variables with the prefix `CONNECT_`are used to configure Apache Kafka Connect. 
@@ -156,3 +122,35 @@ or use the convenience script `confluent-hub-install` which has all the required
 ```bash
 confluent-hub-install <connector> 
 ```
+
+## How to Install Other Plugins
+
+If you want to install other Kafka Connect plugins (Connectors, SMT, etc.) you have two options:
+
+1. Create a *Dockerfile* and install the plugin with the confluent-hub CLI.
+```
+FROM rueedlinger/kafka-connect:1.0.0
+
+# Install connectors from Confluent Hub with convenience script.
+# This will install the plugin in $CONNECT_HOME/plugins
+RUN confluent-hub-install confluentinc/kafka-connect-jdbc:10.0.1
+
+# Or directly with confluent-hub CLI
+# confluent-hub install confluentinc/kafka-connect-jdbc:10.0.1 \
+#   --component-dir $CONNECT_HOME/plugins \
+#   --worker-configs $CONNECT_WORKER_CONFIG \
+#   --no-prompt
+```
+
+2. Create a *Dockerfile* and place the connector in one of the Kafka Connect plugin directories.
+```
+FROM rueedlinger/kafka-connect:1.0.0
+
+# Add the connector plugin to /usr/local/share/java 
+ADD connector.jar /usr/local/share/java
+
+# Or add the connector $CONNECT_HOME/plugins
+# ADD connector.jar $CONNECT_HOME/plugins
+```
+
+**Note**: If you want to install Kafka Consumer or Producer interceptors, you should place them in `$CONNECT_HOME/jars`. Because `$CONNECT_HOME/jars` is added to `CLASSPATH` when starting Apache Kafka Connect.
