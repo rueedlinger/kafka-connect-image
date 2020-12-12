@@ -77,6 +77,10 @@ RUN wget https://github.com/farmdawgnation/registryless-avro-converter/releases/
 ADD rootfs /
 ADD templates $CONNECT_HOME/templates
 
+# create dummy config so that downstream images do not break when 
+# they want to use the confluent hub cli to install connectors
+RUN envtpl -o $CONNECT_WORKER_CONFIG $CONNECT_HOME/templates/connect-distributed.properties.tpl
+
 # Set file permission for Apache Kafka Connect
 RUN chown -R kafka-connect:kafka-connect-group $CONNECT_HOME && \
     chown -R kafka-connect:kafka-connect-group /usr/local/share/java && \
