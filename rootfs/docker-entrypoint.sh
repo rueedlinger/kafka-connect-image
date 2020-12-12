@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 set -e
 
+echo "Checking required Apache Kafka Connect configurations..."
 if [ -z "$CONNECT_BOOTSTRAP_SERVERS" ]; then
     echo "Missing configuration CONNECT_BOOTSTRAP_SERVERS"
     exit 1
@@ -41,8 +42,7 @@ if [ -z "$CONNECT_REST_ADVERTISED_HOST_NAME" ]; then
     exit 1
 fi
 
-# set defaults
-
+echo "Set default configurations..."
 if [ -z "$CLASSPATH" ]; then
     export CLASSPATH="/connect/jars/*"
 fi
@@ -70,14 +70,16 @@ if [ -z "$TZ" ]; then
     export TZ="UTC"
 fi
 
-echo "Creating configuration..."
-# set timeone
+
+echo "Set timezone and localtime to $TZ"
 cp /usr/share/zoneinfo/$TZ $CONNECT_HOME/etc/localtime 
 echo $TZ > $CONNECT_HOME/etc/timezone
 
-# create connect configuration
+echo "Creating Apache Kafka Connect logging configuration file $CONNECT_LOG_CONFIG"
 envtpl -o $CONNECT_LOG_CONFIG $CONNECT_HOME/templates/connect-log4j.properties.tpl
+
+echo "Creating Apache Kafka Connect worker configuration file $CONNECT_WORKER_CONFIG"
 envtpl -o $CONNECT_WORKER_CONFIG $CONNECT_HOME/templates/connect-distributed.properties.tpl
 
 echo "Starting Apache Kafka Connect..."
-connect-distributed.sh $CONNECT_HOME/etc/connect-distributed.properties
+connect-distributed.sh $CONNECT_WORKER_CONFIG

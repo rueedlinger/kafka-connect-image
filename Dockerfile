@@ -15,10 +15,10 @@ ENV CONNECT_WORKER_CONFIG="$CONNECT_HOME/etc/connect-distributed.properties"
 ENV CONNECT_LOG_CONFIG="$CONNECT_HOME/etc/connect-log4j.properties"
 
 ENV PATH="$KAFKA_HOME/bin:$CONFLUENT_HUB_HOME/bin:$PATH"
+ENV LOG_DIR="/var/log"
 
 # Default Kafka logging settings
 ENV KAFKA_LOG4J_OPTS="-Dlog4j.configuration=file:$CONNECT_LOG_CONFIG"
-ENV LOG_DIR="/var/log/kafka"
 
 # user and group for running Apache Kafka Connect
 RUN addgroup -g 1000 kafka-connect-group && \
@@ -55,8 +55,8 @@ RUN mkdir -p $CONNECT_HOME/etc && \
     mkdir -p $CONNECT_HOME/templates && \
     mkdir -p $CONNECT_HOME/jars && \
     mkdir -p $CONNECT_HOME/plugins && \
-    mkdir -p $LOG_DIR && \
-    mkdir -p /usr/local/share/java
+    mkdir -p /usr/local/share/java && \
+    mkdir -p $LOG_DIR
 
 # Install timezone and localtime configuration
 RUN cp /usr/share/zoneinfo/UTC $CONNECT_HOME/etc/localtime && \
@@ -78,7 +78,7 @@ ADD rootfs /
 ADD templates $CONNECT_HOME/templates
 
 # Set file permission for Apache Kafka Connect
-RUN chown -R kafka-connect:kafka-connect-group $CONNECT_HOME  && \
+RUN chown -R kafka-connect:kafka-connect-group $CONNECT_HOME && \
     chown -R kafka-connect:kafka-connect-group /usr/local/share/java && \
     chown -R kafka-connect:kafka-connect-group $LOG_DIR
 

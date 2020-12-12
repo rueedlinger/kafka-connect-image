@@ -63,7 +63,7 @@ The following environment variables  are set.
 | CONNECT_LOG_CONFIG | The path to Apache Kafka Connect logging configuration file. | `$CONNECT_HOME/etc/connect-log4j.properties` |
 |  KAFKA_LOG4J_OPTS | Kafka logging configuration | `-Dlog4j.configuration=file:$CONNECT_LOG_CONFIG` |
 | PATH | The default PATH variable | `$KAFKA_HOME/bin:$CONFLUENT_HUB_HOME/bin:$PATH` |
-|LOG_DIR||`/var/log/kafka`|
+| LOG_DIR |LOG_DIR parameter (defines the path name of the directory to which system execution logs are to be output) |`/var/log`|
 
 
 ### Required Configuration
