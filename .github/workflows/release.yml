@@ -23,6 +23,7 @@ jobs:
           images: rueedlinger/kafka-connect
           tag-semver: |
             {{version}}
+          tag-latest: true
       -
         name: Set up QEMU
         uses: docker/setup-qemu-action@v1
