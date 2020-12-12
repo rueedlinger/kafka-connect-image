@@ -2,9 +2,10 @@
 Docker image for deploying and running Apache Kafka Connect. The Docker image is based on Alpine Linux and contains:
 - Apache Kafka 2.6
 - Java 11 (zulu11-jdk-headless)
+- Confluent Hub Client
 
 The following Apache Kafka Connect plugins are already installed:
-- The [Registryless Avro Converter](https://github.com/farmdawgnation/registryless-avro-converter) which uses Avro without a schema regsitry.
+- The [Registryless Avro Converter](https://github.com/farmdawgnation/registryless-avro-converter) which uses Avro without a schema registry.
 - The confluent *kafka-serde-tools* from the [Confluent Schema Registry](https://github.com/confluentinc/schema-registry) which contains the Avro, Protobuf and JSON schema convertors). 
 
 ## CI Build
@@ -72,6 +73,7 @@ When nothing else is set the following defaults are used.
 | Configuration | Description | Default |
 |---|---|---|
 | TZ | The TZ environment variable is used to establish the local time zone. Valid values are `Europe/Zurich`, `America/New_York`, `Europe/Dublin`, ... | `UTC` |
+| LANG | The LANG environment variable controls the locale of the host. | `C.UTF-8` |
 | CLASSPATH | The Classpath which is set for Apache Kafka Connect. | `/connect/jars/*` |
 | CONNECT_PLUGIN_PATH | The plugin.path value that indicates the location from which to load Connect plugins in classloading isolation. | `/connect/plugins,/usr/local/share/java` |
 | CONNECT_INTERNAL_KEY_CONVERTER | Converter class for internal keys that implements the `Converter` interface. | `org.apache.kafka.connect.json.JsonConverter` with `value.converter.schemas.enable=true` |
@@ -80,3 +82,33 @@ When nothing else is set the following defaults are used.
 | CONNECT_LOG4J_ROOT_LOGLEVEL | The root log level. | `INFO` |
 | CONNECT_LOG4J_LOGGERS | There is also an option to override other log4j properties. Valid options are `org.apache.zookeeper=ERROR,org.I0Itec.zkclient=ERROR,org.reflections=ERROR` | - |
 | CONNECT_LOG4J_APPENDER_STDOUT_LAYOUT_CONVERSIONPATTERN | The logging format which is used. | `'[%d] %p %X{connector.context}%m (%c:%L)%n'`|
+
+
+### Environment Variables
+
+| Environment Variable | Description | Default |
+|---|---|---|
+| CONNECT_HOME | The path to Apache Kafka Connect configuration files, plugin directory and classpath directory. | `/usr/local/connect` |
+| KAFKA_HOME | The location of the Kafka binaries. | `/usr/local/kafka` |
+| CONFLUENT_HUB_HOME | The location Confluent Hub cli | `/usr/local/confluent-hub` |
+| CONNECT_WORKER_CONFIG | The path to Apache Kafka Connect worker configuration file.   | `$CONNECT_HOME/etc/connect-distributed.properties` |
+| CONNECT_LOG_CONFIG | The path to Apache Kafka Connect logging configuration file. | `$CONNECT_HOME/etc/connect-log4j.properties` |
+|  KAFKA_LOG4J_OPTS | Kafka logfile location | `-Dlog4j.configuration=file:$CONNECT_LOG_CONFIG` |
+| PATH | The default PATH variable | `$KAFKA_HOME/bin:$CONFLUENT_HUB_HOME/bin:$PATH` |
+
+
+### Confluent Hub Client
+Confluent Hub Client is installed in the Docker image and can be used to install connectors from [Confluent Hub](https://www.confluent.io/hub/).
+
+Just run 
+```bash
+confluent-hub install <connector> \
+   --component-dir $CONNECT_HOME/plugins \
+   --worker-configs $CONNECT_WORKER_CONFIG \
+   --no-prompt
+```
+
+or use the convenience script `confluent-hub-install` which has all the required properties already set.
+```bash
+confluent-hub-install <connector> 
+```

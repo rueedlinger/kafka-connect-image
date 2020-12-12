@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+confluent-hub install $1 \
+   --component-dir $CONNECT_HOME/plugins \
+   --worker-configs $CONNECT_WORKER_CONFIG \
+   --no-prompt

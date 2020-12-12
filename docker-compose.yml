@@ -99,4 +99,4 @@ services:
       #CONNECT_PLUGIN_PATH: "/usr/share/java,/usr/share/confluent-hub-components,/etc/kafka-connect/jars"
       #CONNECT_LOG4J_ROOT_LOGLEVEL: "INFO"
       #CONNECT_LOG4J_LOGGERS: org.apache.zookeeper=ERROR,org.I0Itec.zkclient=ERROR,org.reflections=ERROR
-      #CONNECT_CONNECTOR_CLIENT_CONFIG_OVERRIDE_POLICY: "All"
+      CONNECT_CONNECTOR_CLIENT_CONFIG_OVERRIDE_POLICY: "All"

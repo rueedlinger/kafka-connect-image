@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 set -e
 
 if [ -z "$CONNECT_BOOTSTRAP_SERVERS" ]; then
@@ -48,7 +48,7 @@ if [ -z "$CLASSPATH" ]; then
 fi
 
 if [ -z "$CONNECT_PLUGIN_PATH" ]; then
-    export CONNECT_PLUGIN_PATH="/connect/plugins,/usr/local/share/java"
+    export CONNECT_PLUGIN_PATH="$CONNECT_HOME/plugins,/usr/local/share/java"
 fi
 
 
@@ -72,33 +72,12 @@ fi
 
 echo "Creating configuration..."
 # set timeone
-cp /usr/share/zoneinfo/$TZ /connect/etc/localtime 
-echo $TZ > /connect/etc/timezone
-
+cp /usr/share/zoneinfo/$TZ $CONNECT_HOME/etc/localtime 
+echo $TZ > $CONNECT_HOME/etc/timezone
 
 # create connect configuration
-envtpl /connect/etc/connect-log4j.properties.tpl
-envtpl /connect/etc/kafka-connect.properties.tpl
-
-
-echo "system settings"
-echo "---------------------------"
-echo "timezone: $TZ"
-echo "current date/time: $(date)"
-echo "id: $(id)"
-echo "---------------------------"
-
-echo "log configuration"
-echo "---------------------------"
-cat /connect/etc/connect-log4j.properties
-echo
-echo "---------------------------"
-
-echo "connect configuration"
-echo "---------------------------"
-cat /connect/etc/kafka-connect.properties
-echo
-echo "---------------------------"
+envtpl -o $CONNECT_LOG_CONFIG $CONNECT_HOME/templates/connect-log4j.properties.tpl
+envtpl -o $CONNECT_WORKER_CONFIG $CONNECT_HOME/templates/connect-distributed.properties.tpl
 
 echo "Starting Apache Kafka Connect..."
-connect-distributed.sh /connect/etc/kafka-connect.properties
+connect-distributed.sh $CONNECT_HOME/etc/connect-distributed.properties
