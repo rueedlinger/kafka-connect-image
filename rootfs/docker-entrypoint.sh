@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 set -e
 
+echo "Java version $(java --version)"
+echo "Apache Kafka version $(kafka-topics.sh --version)"
+
 echo "Checking required Apache Kafka Connect configurations..."
 if [ -z "$CONNECT_BOOTSTRAP_SERVERS" ]; then
     echo "Missing configuration CONNECT_BOOTSTRAP_SERVERS"
@@ -76,10 +79,10 @@ cp /usr/share/zoneinfo/$TZ $CONNECT_HOME/etc/localtime
 echo $TZ > $CONNECT_HOME/etc/timezone
 
 echo "Creating Apache Kafka Connect logging configuration file $CONNECT_LOG_CONFIG"
-envtpl -o $CONNECT_LOG_CONFIG $CONNECT_HOME/templates/connect-log4j.properties.tpl
+envtpl -o $CONNECT_LOG_CONFIG $CONNECT_HOME/templates/connect-log4j.properties.tpl --keep-template
 
 echo "Creating Apache Kafka Connect worker configuration file $CONNECT_WORKER_CONFIG"
-envtpl -o $CONNECT_WORKER_CONFIG $CONNECT_HOME/templates/connect-distributed.properties.tpl
+envtpl -o $CONNECT_WORKER_CONFIG $CONNECT_HOME/templates/connect-distributed.properties.tpl --keep-template
 
 echo "Starting Apache Kafka Connect..."
 connect-distributed.sh $CONNECT_WORKER_CONFIG

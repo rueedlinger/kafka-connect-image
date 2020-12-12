@@ -78,8 +78,9 @@ ADD rootfs /
 ADD templates $CONNECT_HOME/templates
 
 # create dummy config so that downstream images do not break when 
-# they want to use the confluent hub cli to install connectors
-RUN envtpl -o $CONNECT_WORKER_CONFIG $CONNECT_HOME/templates/connect-distributed.properties.tpl
+# they want to use the confluent hub cli to install connectors or kafka cli tools.
+RUN envtpl -o $CONNECT_WORKER_CONFIG $CONNECT_HOME/templates/connect-distributed.properties.tpl --keep-template
+RUN envtpl -o $CONNECT_LOG_CONFIG $CONNECT_HOME/templates/connect-log4j.properties.tpl --keep-template
 
 # Set file permission for Apache Kafka Connect
 RUN chown -R kafka-connect:kafka-connect-group $CONNECT_HOME && \
