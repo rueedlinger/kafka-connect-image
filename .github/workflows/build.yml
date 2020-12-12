@@ -1,23 +1,48 @@
-name: Build Docker image
+name: CI Build
+
 on:
   push:
-    branches: [ main, fix/*, feature/* ]
+    branches:
+      - '**'
+    tags:
+      - 'v*'
   pull_request:
-    branches: [ main ]
+    branches:
+      - main
+
 jobs:
-  build:
+  docker:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: Set up QEMU
+      -
+        name: Checkout
+        uses: actions/checkout@v2
+      -
+        name: Docker meta
+        id: docker_meta
+        uses: crazy-max/ghaction-docker-meta@v1
+        with:
+          images: rueedlinger/kafka-connect
+      -
+        name: Set up QEMU
         uses: docker/setup-qemu-action@v1
-      - name: Set up Docker Buildx
+      -
+        name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
-      - name: Build and push
-        id: docker_build
-        uses: docker/build-push-action@v2
+      -
+        name: Login to DockerHub
+        if: github.event_name != 'pull_request'
+        uses: docker/login-action@v1 
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-          repository: rueedlinger/kafka-connect
-          tags: kafka-connect:latest
+      -
+        name: Build and push
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: ./Dockerfile
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ steps.docker_meta.outputs.tags }}
+          labels: ${{ steps.docker_meta.outputs.labels }}
