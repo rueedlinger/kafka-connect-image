@@ -21,9 +21,6 @@ jobs:
         uses: crazy-max/ghaction-docker-meta@v1
         with:
           images: rueedlinger/kafka-connect
-          tag-semver: |
-            {{version}}
-          tag-latest: true
       -
         name: Set up QEMU
         uses: docker/setup-qemu-action@v1
