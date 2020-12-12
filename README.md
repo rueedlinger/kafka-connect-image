@@ -51,9 +51,24 @@ For example `CONNECT_BOOTSTRAP_SERVERS=foo` is mapped to Connect configuration `
 
 > **Note:** The setup and configuration is inspired by the Confluent Apache Kafka Connect Docker image.
 
+### Environment Variables
+The following environment variables  are set.
+
+| Environment Variable | Description | Default |
+|---|---|---|
+| CONNECT_HOME | The path to Apache Kafka Connect configuration files, plugin directory and classpath directory. | `/usr/local/connect` |
+| KAFKA_HOME | The location of the Kafka binaries. | `/usr/local/kafka` |
+| CONFLUENT_HUB_HOME | The location of the Confluent Hub cli | `/usr/local/confluent-hub` |
+| CONNECT_WORKER_CONFIG | The path to Apache Kafka Connect worker configuration file.   | `$CONNECT_HOME/etc/connect-distributed.properties` |
+| CONNECT_LOG_CONFIG | The path to Apache Kafka Connect logging configuration file. | `$CONNECT_HOME/etc/connect-log4j.properties` |
+|  KAFKA_LOG4J_OPTS | Kafka logging configuration | `-Dlog4j.configuration=file:$CONNECT_LOG_CONFIG` |
+| PATH | The default PATH variable | `$KAFKA_HOME/bin:$CONFLUENT_HUB_HOME/bin:$PATH` |
+|LOG_DIR||`/var/log/kafka`|
+
+
 ### Required Configuration
 
-Thell following configuration settings are required.
+The following configuration settings are required.
 
 | Configuration | Description |
 |-------------|-------------|
@@ -74,8 +89,8 @@ When nothing else is set the following defaults are used.
 |---|---|---|
 | TZ | The TZ environment variable is used to establish the local time zone. Valid values are `Europe/Zurich`, `America/New_York`, `Europe/Dublin`, ... | `UTC` |
 | LANG | The LANG environment variable controls the locale of the host. | `C.UTF-8` |
-| CLASSPATH | The Classpath which is set for Apache Kafka Connect. | `/connect/jars/*` |
-| CONNECT_PLUGIN_PATH | The plugin.path value that indicates the location from which to load Connect plugins in classloading isolation. | `/connect/plugins,/usr/local/share/java` |
+| CLASSPATH | The Classpath which is set for Apache Kafka Connect. | `$CONNECT_HOME/jars/*` |
+| CONNECT_PLUGIN_PATH | The plugin.path value that indicates the location from which to load Connect plugins in classloading isolation. | `$CONNECT_HOME/plugins,/usr/local/share/java` |
 | CONNECT_INTERNAL_KEY_CONVERTER | Converter class for internal keys that implements the `Converter` interface. | `org.apache.kafka.connect.json.JsonConverter` with `value.converter.schemas.enable=true` |
 | CONNECT_INTERNAL_VALUE_CONVERTER | Converter class for internal values that implements the `Converter` interface. | `org.apache.kafka.connect.json.JsonConverter` with `key.converter.schemas.enable=true`|
 | CONNECT_REST_PORT | Port for the REST API to listen on. | `8083` |
@@ -83,18 +98,6 @@ When nothing else is set the following defaults are used.
 | CONNECT_LOG4J_LOGGERS | There is also an option to override other log4j properties. Valid options are `org.apache.zookeeper=ERROR,org.I0Itec.zkclient=ERROR,org.reflections=ERROR` | - |
 | CONNECT_LOG4J_APPENDER_STDOUT_LAYOUT_CONVERSIONPATTERN | The logging format which is used. | `'[%d] %p %X{connector.context}%m (%c:%L)%n'`|
 
-
-### Environment Variables
-
-| Environment Variable | Description | Default |
-|---|---|---|
-| CONNECT_HOME | The path to Apache Kafka Connect configuration files, plugin directory and classpath directory. | `/usr/local/connect` |
-| KAFKA_HOME | The location of the Kafka binaries. | `/usr/local/kafka` |
-| CONFLUENT_HUB_HOME | The location Confluent Hub cli | `/usr/local/confluent-hub` |
-| CONNECT_WORKER_CONFIG | The path to Apache Kafka Connect worker configuration file.   | `$CONNECT_HOME/etc/connect-distributed.properties` |
-| CONNECT_LOG_CONFIG | The path to Apache Kafka Connect logging configuration file. | `$CONNECT_HOME/etc/connect-log4j.properties` |
-|  KAFKA_LOG4J_OPTS | Kafka logfile location | `-Dlog4j.configuration=file:$CONNECT_LOG_CONFIG` |
-| PATH | The default PATH variable | `$KAFKA_HOME/bin:$CONFLUENT_HUB_HOME/bin:$PATH` |
 
 
 ### Confluent Hub Client
