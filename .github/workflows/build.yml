@@ -17,5 +17,7 @@ jobs:
         id: docker_build
         uses: docker/build-push-action@v2
         with:
-          push: false
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          repository: rueedlinger/kafka-connect
           tags: kafka-connect:latest
