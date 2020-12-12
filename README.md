@@ -40,7 +40,6 @@ When all containers are started you can access different services like
 The Docker image is also published in Docker Hub.
 - see https://hub.docker.com/r/rueedlinger/kafka-connect
 
-
 ```bash
 docker pull rueedlinger/kafka-connect:v2.6.0
 ```
