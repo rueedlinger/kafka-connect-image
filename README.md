@@ -45,11 +45,12 @@ docker pull rueedlinger/kafka-connect:v1.0.0
 | Docker Tag  | Description  |
 |---|---|
 | `main` | This is the current release of the main branch. |
-| `<major>.<minor>.<path>` | The release `<major>.<minor>.<path>`. For example `1.0.1` and tag `v1.0.1` |
+| `<major>.<minor>.<patch>` | The release `<major>.<minor>.<patch>`. For example `1.0.1` and tag `v1.0.1` |
 
 | Release  | Kafka Version  | Java Version
 |---|---|---|
 |1.0.x| 2.6.x| 11 |
+|2.0.x| 2.7.x| 11 |
 
 
 ## Configuration
