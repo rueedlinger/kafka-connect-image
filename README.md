@@ -1,8 +1,11 @@
 # Apache Kafka Connect Docker Image
-Docker image for deploying and running Apache Kafka Connect. The Docker image is based on Alpine Linux and contains:
-- Apache Kafka 2.7
-- Java 11 (zulu11-jdk-headless)
-- Confluent Hub Client
+This project provides a Docker image for deploying and running Apache Kafka Connect. The goal of this project is to have 
+a base or example to build your own Apache Kafka Connect Docker image which is similar to other providers.
+
+The Docker image is based on Alpine Linux and contains:
+- *Apache Kafka 2.7*
+- *Java 11* (zulu11-jdk-headless) - A haeadless Java Development Kit (without GUI support).
+- *Confluent Hub Client* - A CLI which can be used to install Kafka Connect plugins from Confluent Hub. 
 
 The following Apache Kafka Connect plugins are already installed:
 - The [Registryless Avro Converter](https://github.com/farmdawgnation/registryless-avro-converter) which uses Avro without a schema registry.
