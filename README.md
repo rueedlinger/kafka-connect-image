@@ -1,6 +1,6 @@
 # Apache Kafka Connect Docker Image
 Docker image for deploying and running Apache Kafka Connect. The Docker image is based on Alpine Linux and contains:
-- Apache Kafka 2.6
+- Apache Kafka 2.7
 - Java 11 (zulu11-jdk-headless)
 - Confluent Hub Client
 
