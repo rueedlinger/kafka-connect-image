@@ -1,5 +1,8 @@
 FROM alpine:3.9 
 
+ARG KAFKA_VERSION=2.7.0
+ARG SCALA_VERSION=2.13
+
 USER root
 WORKDIR /tmp
 
@@ -39,10 +42,10 @@ RUN ln -sf python3 /usr/bin/python && \
     pip install --no-cache --upgrade pip setuptools envtpl
 
 # Install Apache Kafka binaries
-RUN wget https://downloads.apache.org/kafka/2.6.0/kafka_2.13-2.6.0.tgz && \
-    tar -xvzf kafka_2.13-2.6.0.tgz -C /usr/local && \
+RUN wget https://downloads.apache.org/kafka/${KAFKA_VERSION}/kafka_${SCALA_VERSION}-${KAFKA_VERSION}.tgz && \
+    tar -xvzf kafka_${SCALA_VERSION}-${KAFKA_VERSION}.tgz -C /usr/local && \
     rm kafka_*.tgz && \
-    ln -s /usr/local/kafka_2.13-2.6.0 $KAFKA_HOME    
+    ln -s /usr/local/kafka_${SCALA_VERSION}-${KAFKA_VERSION} $KAFKA_HOME    
 
 # Install confluent-hub-client binary
 RUN wget http://client.hub.confluent.io/confluent-hub-client-6.0.0-package.tar.gz && \
@@ -79,8 +82,8 @@ ADD templates $CONNECT_HOME/templates
 
 # create dummy config so that downstream images do not break when 
 # they want to use the confluent hub cli to install connectors or kafka cli tools.
-RUN envtpl -o $CONNECT_WORKER_CONFIG $CONNECT_HOME/templates/connect-distributed.properties.tpl --keep-template
-RUN envtpl -o $CONNECT_LOG_CONFIG $CONNECT_HOME/templates/connect-log4j.properties.tpl --keep-template
+RUN envtpl -o $CONNECT_WORKER_CONFIG $CONNECT_HOME/templates/connect-distributed.properties.tpl --keep-template && \
+    envtpl -o $CONNECT_LOG_CONFIG $CONNECT_HOME/templates/connect-log4j.properties.tpl --keep-template
 
 # Set file permission for Apache Kafka Connect
 RUN chown -R kafka-connect:kafka-connect-group $CONNECT_HOME && \
