@@ -39,7 +39,7 @@ The Docker image is also published in Docker Hub.
 - see https://hub.docker.com/r/rueedlinger/kafka-connect
 
 ```bash
-docker pull rueedlinger/kafka-connect:v1.0.0
+docker pull rueedlinger/kafka-connect:v2.0.0
 ```
 
 | Docker Tag  | Description  |
