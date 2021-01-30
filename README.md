@@ -1,6 +1,6 @@
 # Apache Kafka Connect Docker Image
 This project provides a Docker image for deploying and running Apache Kafka Connect. The goal of this project is to have 
-a base or example to build your own Apache Kafka Connect Docker image which is similar to other providers.
+a base or example to build your own Apache Kafka Connect Docker image which is similar to other providers like Confluent.
 
 The Docker image is based on Alpine Linux and contains:
 - *Apache Kafka 2.7*
@@ -8,8 +8,8 @@ The Docker image is based on Alpine Linux and contains:
 - *Confluent Hub Client* - A CLI which can be used to install Kafka Connect plugins from Confluent Hub. 
 
 The following Apache Kafka Connect plugins are already installed:
-- The [Registryless Avro Converter](https://github.com/farmdawgnation/registryless-avro-converter) which uses Avro without a schema registry.
-- The confluent *kafka-serde-tools* from the [Confluent Schema Registry](https://github.com/confluentinc/schema-registry) which contains the Avro, Protobuf and JSON schema convertors). 
+- The *[Registryless Avro Converter](https://github.com/farmdawgnation/registryless-avro-converter)* is a Avro converter for Kafka Connect that does not depend on Confluent Schema Registry.
+- The confluent *kafka-serde-tools* from the [Confluent Schema Registry](https://github.com/confluentinc/schema-registry) which contains the Avro, Protobuf and JSON schema convertors. 
 
 ## CI Build
 - ![CI Build](https://github.com/rueedlinger/kafka-connect-image/workflows/CI%20Build/badge.svg)
@@ -26,15 +26,15 @@ This will start the following Docker containers:
 - `zookeeper` => Apache Zookeeper (`confluentinc/cp-zookeeper`)
 - `broker` => Apache Kafka (`confluentinc/cp-kafka`)
 - `schema-registry`=> Schema Registry (`confluentinc/cp-schema-registry`)
-- `connect`=> The plain Apache Kafka Connect Docker image [Dockerfile](Dockerfile)
-- `kafdrop`=> Kafdrop – Kafka Web UI  (`obsidiandynamics/kafdrop`)
-- `connect-ui` => Kafka Connect UI from Lenses.io (`landoop/kafka-connect-ui`)
+- `connect`=> The plain Apache Kafka Connect Docker image (see [Dockerfile](Dockerfile))
+- `kafka-ui`=> [Kafka UI](https://github.com/provectus/kafka-ui) from Provectus (`provectuslabs/kafka-ui`)
+- `connect-ui` => [Kafka Connect UI](https://github.com/lensesio/kafka-connect-ui) from Lenses.io (`landoop/kafka-connect-ui`)
 
 When all containers are started you can access different services like 
 - **Kafka Connect Rest API** => http://localhost:8083/
-- **Kafdrop** => http://localhost:8082/
+- **Kafka UI** => http://localhost:8082/
 - **Schema Registry** => http://localhost:8081/
-- **kafka-connect-ui** from Lenses.io  => http://localhost:8000/
+- **Kafka Connect UI** from Lenses.io  => http://localhost:8000/
 
 ## Releases & Docker Image
 
@@ -48,7 +48,7 @@ docker pull rueedlinger/kafka-connect:v2.0.0
 | Docker Tag  | Description  |
 |---|---|
 | `main` | This is the current release of the main branch. |
-| `<major>.<minor>.<patch>` | The release `<major>.<minor>.<patch>`. For example `1.0.1` and tag `v1.0.1` |
+| `<major>.<minor>.<patch>` | Tag for a specic release. For example `2.0.0` |
 
 | Release  | Kafka Version  | Java Version
 |---|---|---|
@@ -57,8 +57,8 @@ docker pull rueedlinger/kafka-connect:v2.0.0
 
 
 ## Configuration
-All environment variables with the prefix `CONNECT_`are used to configure Apache Kafka Connect. 
-For example `CONNECT_BOOTSTRAP_SERVERS=foo` is mapped to Connect configuration `bootstrap.servers=foo`.
+All environment variables with the prefix `CONNECT_` are used to configure Apache Kafka Connect. 
+For example `CONNECT_BOOTSTRAP_SERVERS=foo` is mapped to the Connect configuration `bootstrap.servers=foo`.
 
 > **Note:** The setup and configuration is inspired by the Confluent Apache Kafka Connect Docker image.
 
@@ -72,7 +72,7 @@ The following environment variables  are set.
 | CONFLUENT_HUB_HOME | The location of the Confluent Hub cli | `/usr/local/confluent-hub` |
 | CONNECT_WORKER_CONFIG | The path to Apache Kafka Connect worker configuration file.   | `$CONNECT_HOME/etc/connect-distributed.properties` |
 | CONNECT_LOG_CONFIG | The path to Apache Kafka Connect logging configuration file. | `$CONNECT_HOME/etc/connect-log4j.properties` |
-|  KAFKA_LOG4J_OPTS | Kafka logging configuration | `-Dlog4j.configuration=file:$CONNECT_LOG_CONFIG` |
+| KAFKA_LOG4J_OPTS | Kafka logging configuration | `-Dlog4j.configuration=file:$CONNECT_LOG_CONFIG` |
 | PATH | The default PATH variable | `$KAFKA_HOME/bin:$CONFLUENT_HUB_HOME/bin:$PATH` |
 | LOG_DIR |LOG_DIR parameter (defines the path name of the directory to which system execution logs are to be output) |`/var/log`|
 
@@ -133,7 +133,7 @@ If you want to install other Kafka Connect plugins (Connectors, SMT, etc.) you h
 
 1. Create a *Dockerfile* and install the plugin with the confluent-hub CLI.
 ```
-FROM rueedlinger/kafka-connect:1.0.0
+FROM rueedlinger/kafka-connect:2.0.0
 
 # Install connectors from Confluent Hub with convenience script.
 # This will install the plugin in $CONNECT_HOME/plugins
@@ -148,7 +148,7 @@ RUN confluent-hub-install confluentinc/kafka-connect-jdbc:10.0.1
 
 2. Create a *Dockerfile* and place the connector in one of the Kafka Connect plugin directories.
 ```
-FROM rueedlinger/kafka-connect:1.0.0
+FROM rueedlinger/kafka-connect:2.0.0
 
 # Add the connector plugin to /usr/local/share/java 
 ADD connector.jar /usr/local/share/java

@@ -23,7 +23,7 @@ ENV LOG_DIR="/var/log"
 # Default Kafka logging settings
 ENV KAFKA_LOG4J_OPTS="-Dlog4j.configuration=file:$CONNECT_LOG_CONFIG"
 
-# user and group for running Apache Kafka Connect
+# Create user and group for running Apache Kafka Connect
 RUN addgroup -g 1000 kafka-connect-group && \
     adduser -u 1000 -G kafka-connect-group -D kafka-connect
 
@@ -80,7 +80,7 @@ RUN wget https://github.com/farmdawgnation/registryless-avro-converter/releases/
 ADD rootfs /
 ADD templates $CONNECT_HOME/templates
 
-# create dummy config so that downstream images do not break when 
+# Create dummy config so that downstream images do not break when 
 # they want to use the confluent hub cli to install connectors or kafka cli tools.
 RUN envtpl -o $CONNECT_WORKER_CONFIG $CONNECT_HOME/templates/connect-distributed.properties.tpl --keep-template && \
     envtpl -o $CONNECT_LOG_CONFIG $CONNECT_HOME/templates/connect-log4j.properties.tpl --keep-template
