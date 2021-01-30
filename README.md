@@ -8,8 +8,8 @@ The Docker image is based on Alpine Linux and contains:
 - *Confluent Hub Client* - A CLI which can be used to install Kafka Connect plugins from Confluent Hub. 
 
 The following Apache Kafka Connect plugins are already installed:
-- The [Registryless Avro Converter](https://github.com/farmdawgnation/registryless-avro-converter) which uses Avro without a schema registry.
-- The confluent *kafka-serde-tools* from the [Confluent Schema Registry](https://github.com/confluentinc/schema-registry) which contains the Avro, Protobuf and JSON schema convertors). 
+- The *[Registryless Avro Converter](https://github.com/farmdawgnation/registryless-avro-converter)* is a Avro converter for Kafka Connect that does not depend on Confluent Schema Registry.
+- The confluent *kafka-serde-tools* from the [Confluent Schema Registry](https://github.com/confluentinc/schema-registry) which contains the Avro, Protobuf and JSON schema convertors. 
 
 ## CI Build
 - ![CI Build](https://github.com/rueedlinger/kafka-connect-image/workflows/CI%20Build/badge.svg)
@@ -48,7 +48,7 @@ docker pull rueedlinger/kafka-connect:v2.0.0
 | Docker Tag  | Description  |
 |---|---|
 | `main` | This is the current release of the main branch. |
-| `<major>.<minor>.<patch>` | The release `<major>.<minor>.<patch>`. For example `1.0.1` and tag `v1.0.1` |
+| `<major>.<minor>.<patch>` | Tag for a specic release. For example `2.0.0` |
 
 | Release  | Kafka Version  | Java Version
 |---|---|---|
@@ -133,7 +133,7 @@ If you want to install other Kafka Connect plugins (Connectors, SMT, etc.) you h
 
 1. Create a *Dockerfile* and install the plugin with the confluent-hub CLI.
 ```
-FROM rueedlinger/kafka-connect:1.0.0
+FROM rueedlinger/kafka-connect:2.0.0
 
 # Install connectors from Confluent Hub with convenience script.
 # This will install the plugin in $CONNECT_HOME/plugins
@@ -148,7 +148,7 @@ RUN confluent-hub-install confluentinc/kafka-connect-jdbc:10.0.1
 
 2. Create a *Dockerfile* and place the connector in one of the Kafka Connect plugin directories.
 ```
-FROM rueedlinger/kafka-connect:1.0.0
+FROM rueedlinger/kafka-connect:2.0.0
 
 # Add the connector plugin to /usr/local/share/java 
 ADD connector.jar /usr/local/share/java
