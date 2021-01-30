@@ -11,8 +11,9 @@ The following Apache Kafka Connect plugins are already installed:
 - The *[Registryless Avro Converter](https://github.com/farmdawgnation/registryless-avro-converter)* is a Avro converter for Kafka Connect that does not depend on Confluent Schema Registry.
 - The confluent *kafka-serde-tools* from the [Confluent Schema Registry](https://github.com/confluentinc/schema-registry) which contains the Avro, Protobuf and JSON schema convertors. 
 
-## CI Build
+## CI Build / Release
 - ![CI Build](https://github.com/rueedlinger/kafka-connect-image/workflows/CI%20Build/badge.svg)
+- ![Release Docker](https://github.com/rueedlinger/kafka-connect-image/workflows/Release%20Docker/badge.svg)
 
 ## Build and Run (docker-compose)
 
