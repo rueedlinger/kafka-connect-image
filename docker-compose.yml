@@ -42,26 +42,28 @@ services:
       SCHEMA_REGISTRY_HOST_NAME: schema-registry
       SCHEMA_REGISTRY_KAFKASTORE_CONNECTION_URL: "zookeeper:2181"
 
-  kafdrop:
-    image: obsidiandynamics/kafdrop:3.27.0
-    hostname: kafdrop
-    container_name: kci-schema-kafdrop
-    ports:
-      - "8082:9000"
-    environment:
-      KAFKA_BROKERCONNECT: "broker:29092"
-      SCHEMAREGISTRY_CONNECT: "http://schema-registry:8081"
+  kafka-ui:
+    image: provectuslabs/kafka-ui:0.0.9
+    hostname: kafka-ui
+    container_name: kci-kafka-ui
     depends_on:
       - zookeeper
       - broker
       - schema-registry
+    ports:
+      - "8082:8080"
+    environment:
+      KAFKA_CLUSTERS_0_NAME: "docker"
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: "broker:29092"
+      KAFKA_CLUSTERS_0_ZOOKEEPER: "zookeeper:2181"
+      KAFKA_CLUSTERS_0_SCHEMAREGISTRY: "http://schema-registry:8081"
 
   connect-ui:
     image: landoop/kafka-connect-ui:0.9.7
     hostname: connect-ui
     container_name: kci-connect-ui
     ports:
-      - "8000:8000"
+      - "8080:8000"
     environment:
       CONNECT_URL: "connect:8083"
     depends_on:

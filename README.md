@@ -1,6 +1,6 @@
 # Apache Kafka Connect Docker Image
 This project provides a Docker image for deploying and running Apache Kafka Connect. The goal of this project is to have 
-a base or example to build your own Apache Kafka Connect Docker image which is similar to other providers.
+a base or example to build your own Apache Kafka Connect Docker image which is similar to other providers like Confluent.
 
 The Docker image is based on Alpine Linux and contains:
 - *Apache Kafka 2.7*
@@ -26,15 +26,15 @@ This will start the following Docker containers:
 - `zookeeper` => Apache Zookeeper (`confluentinc/cp-zookeeper`)
 - `broker` => Apache Kafka (`confluentinc/cp-kafka`)
 - `schema-registry`=> Schema Registry (`confluentinc/cp-schema-registry`)
-- `connect`=> The plain Apache Kafka Connect Docker image [Dockerfile](Dockerfile)
-- `kafdrop`=> Kafdrop – Kafka Web UI  (`obsidiandynamics/kafdrop`)
-- `connect-ui` => Kafka Connect UI from Lenses.io (`landoop/kafka-connect-ui`)
+- `connect`=> The plain Apache Kafka Connect Docker image (see [Dockerfile](Dockerfile))
+- `kafka-ui`=> [Kafka UI](https://github.com/provectus/kafka-ui) from Provectus (`provectuslabs/kafka-ui`)
+- `connect-ui` => [Kafka Connect UI](https://github.com/lensesio/kafka-connect-ui) from Lenses.io (`landoop/kafka-connect-ui`)
 
 When all containers are started you can access different services like 
 - **Kafka Connect Rest API** => http://localhost:8083/
-- **Kafdrop** => http://localhost:8082/
+- **Kafka UI** => http://localhost:8082/
 - **Schema Registry** => http://localhost:8081/
-- **kafka-connect-ui** from Lenses.io  => http://localhost:8000/
+- **Kafka Connect UI** from Lenses.io  => http://localhost:8000/
 
 ## Releases & Docker Image
 
@@ -57,8 +57,8 @@ docker pull rueedlinger/kafka-connect:v2.0.0
 
 
 ## Configuration
-All environment variables with the prefix `CONNECT_`are used to configure Apache Kafka Connect. 
-For example `CONNECT_BOOTSTRAP_SERVERS=foo` is mapped to Connect configuration `bootstrap.servers=foo`.
+All environment variables with the prefix `CONNECT_` are used to configure Apache Kafka Connect. 
+For example `CONNECT_BOOTSTRAP_SERVERS=foo` is mapped to the Connect configuration `bootstrap.servers=foo`.
 
 > **Note:** The setup and configuration is inspired by the Confluent Apache Kafka Connect Docker image.
 
@@ -72,7 +72,7 @@ The following environment variables  are set.
 | CONFLUENT_HUB_HOME | The location of the Confluent Hub cli | `/usr/local/confluent-hub` |
 | CONNECT_WORKER_CONFIG | The path to Apache Kafka Connect worker configuration file.   | `$CONNECT_HOME/etc/connect-distributed.properties` |
 | CONNECT_LOG_CONFIG | The path to Apache Kafka Connect logging configuration file. | `$CONNECT_HOME/etc/connect-log4j.properties` |
-|  KAFKA_LOG4J_OPTS | Kafka logging configuration | `-Dlog4j.configuration=file:$CONNECT_LOG_CONFIG` |
+| KAFKA_LOG4J_OPTS | Kafka logging configuration | `-Dlog4j.configuration=file:$CONNECT_LOG_CONFIG` |
 | PATH | The default PATH variable | `$KAFKA_HOME/bin:$CONFLUENT_HUB_HOME/bin:$PATH` |
 | LOG_DIR |LOG_DIR parameter (defines the path name of the directory to which system execution logs are to be output) |`/var/log`|
 
