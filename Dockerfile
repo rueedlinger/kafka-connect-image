@@ -1,6 +1,6 @@
 FROM alpine:3.9 
 
-ARG KAFKA_VERSION=2.7.0
+ARG KAFKA_VERSION=2.8.0
 ARG SCALA_VERSION=2.13
 
 USER root
@@ -52,7 +52,7 @@ RUN wget http://client.hub.confluent.io/confluent-hub-client-6.0.0-package.tar.g
     mkdir -p $CONFLUENT_HUB_HOME  && \
     tar -xvzf confluent-hub-client-6.0.0-package.tar.gz -C $CONFLUENT_HUB_HOME && \
     rm confluent-hub-client-*.tar.gz
-   
+
 # Create Kafka Connect directories
 RUN mkdir -p $CONNECT_HOME/etc && \
     mkdir -p $CONNECT_HOME/templates && \
