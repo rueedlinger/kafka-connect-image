@@ -52,7 +52,7 @@ The Docker image is also published in Docker Hub.
 - see https://hub.docker.com/r/rueedlinger/kafka-connect
 
 ```bash
-docker pull rueedlinger/kafka-connect:v3.0.0
+docker pull rueedlinger/kafka-connect:4.0.0
 ```
 
 | Docker Tag                | Description                                     |
@@ -148,7 +148,7 @@ If you want to install other Kafka Connect plugins (Connectors, SMT, etc.) you h
 1. Create a _Dockerfile_ and install the plugin with the confluent-hub CLI.
 
 ```
-FROM rueedlinger/kafka-connect:3.0.0
+FROM rueedlinger/kafka-connect:4.0.0
 
 # Install connectors from Confluent Hub with convenience script.
 # This will install the plugin in $CONNECT_HOME/plugins
