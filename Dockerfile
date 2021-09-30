@@ -1,6 +1,6 @@
 FROM alpine:3.9 
 
-ARG KAFKA_VERSION=2.8.0
+ARG KAFKA_VERSION=3.0.0
 ARG SCALA_VERSION=2.13
 
 USER root
@@ -48,9 +48,9 @@ RUN wget https://downloads.apache.org/kafka/${KAFKA_VERSION}/kafka_${SCALA_VERSI
     ln -s /usr/local/kafka_${SCALA_VERSION}-${KAFKA_VERSION} $KAFKA_HOME    
 
 # Install confluent-hub-client binary
-RUN wget http://client.hub.confluent.io/confluent-hub-client-6.0.0-package.tar.gz && \
+RUN wget http://client.hub.confluent.io/confluent-hub-client-6.2.0-package.tar.gz && \
     mkdir -p $CONFLUENT_HUB_HOME  && \
-    tar -xvzf confluent-hub-client-6.0.0-package.tar.gz -C $CONFLUENT_HUB_HOME && \
+    tar -xvzf confluent-hub-client-6.2.0-package.tar.gz -C $CONFLUENT_HUB_HOME && \
     rm confluent-hub-client-*.tar.gz
 
 # Create Kafka Connect directories
@@ -67,13 +67,13 @@ RUN cp /usr/share/zoneinfo/UTC $CONNECT_HOME/etc/localtime && \
     ln -s $CONNECT_HOME/etc/timezone /etc/timezone && \
     ln -s $CONNECT_HOME/etc/localtime /etc/localtime
 
-# Install Apache Kafka Connect plugins
+# Install Apache Kafka Connect plugins for serialization and deserialization (avro, protobuf, etc.)
 RUN wget https://github.com/farmdawgnation/registryless-avro-converter/releases/download/1.10.0/registryless-avro-converter-1.10.0.jar && \
     mkdir $CONNECT_HOME/plugins/registryless-avro-converter && \
     mv registryless-avro-converter-1.10.0.jar $CONNECT_HOME/plugins/registryless-avro-converter && \
-    wget http://packages.confluent.io/archive/6.0/confluent-community-6.0.1.zip && \
-    unzip confluent-community-6.0.1.zip && \
-    mv confluent-6.0.1/share/java/kafka-serde-tools $CONNECT_HOME/plugins/confluent-kafka-serde-tools && \
+    wget http://packages.confluent.io/archive/6.2/confluent-community-6.2.0.zip && \
+    unzip confluent-community-6.2.0.zip && \
+    mv confluent-6.2.0/share/java/kafka-serde-tools $CONNECT_HOME/plugins/confluent-kafka-serde-tools && \
     rm -rf confluent-*
 
 # Copy the root filesystem and templates

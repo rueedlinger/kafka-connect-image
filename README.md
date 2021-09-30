@@ -1,12 +1,13 @@
+
 # Apache Kafka Connect Docker Image
 
 This project provides a Docker image for deploying and running Apache Kafka Connect. The goal of this project is to have a base or example to build your own Apache Kafka Connect Docker image.
 
-> **Note:** This is my pet project and is used to get a better understanding how to customize a Apache Kafka Connect Docker image. Feel free to fork and modify the image to your needs. The goal was to rebuild a similar Docker image like the one from Confluent.
+> **Note:** This is my pet project and is used to get a better understanding how to customize an Apache Kafka Connect Docker image. Feel free to fork and modify the image to your needs. The goal was to rebuild a similar Docker image like the one from Confluent.
 
 The Docker image is based on Alpine Linux and contains:
 
-- _Apache Kafka 2.8_
+- _Apache Kafka 3.0_
 - _Java 11_ (zulu11-jdk-headless) - A haeadless Java Development Kit (without GUI support).
 - _Confluent Hub Client_ - A CLI which can be used to install Kafka Connect plugins from Confluent Hub.
 
@@ -64,6 +65,8 @@ docker pull rueedlinger/kafka-connect:v3.0.0
 | 1.0.x   | 2.6.x         | 11           |
 | 2.0.x   | 2.7.x         | 11           |
 | 3.0.x   | 2.8.x         | 11           |
+| 4.0.x   | 3.0.x         | 11           |
+
 
 ## Configuration
 
@@ -161,7 +164,7 @@ RUN confluent-hub-install confluentinc/kafka-connect-jdbc:10.0.1
 2. Create a _Dockerfile_ and place the connector in one of the Kafka Connect plugin directories.
 
 ```
-FROM rueedlinger/kafka-connect:3.0.0
+FROM rueedlinger/kafka-connect:4.0.0
 
 # Add the connector plugin to /usr/local/share/java
 ADD connector.jar /usr/local/share/java
